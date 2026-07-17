@@ -1,0 +1,113 @@
+/* ---------- Account list ---------- */
+.account-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.account-row {
+  background: var(--paper-card);
+  border-radius: var(--radius-md);
+  padding: 15px 16px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.account-row__icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  font-size: 16px;
+  background: var(--ink-100);
+  color: var(--ink-700);
+}
+.account-row__body { flex: 1; min-width: 0; }
+.account-row__name {
+  font-weight: 600;
+  font-size: 14.5px;
+  margin: 0 0 2px;
+}
+.account-row__mask {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+.account-row__amount {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 15px;
+  flex: none;
+}
+
+.account-list--detailed .account-row {
+  align-items: flex-start;
+}
+.account-row__balances {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.account-row__balances small {
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+/* ---------- Transaction list ---------- */
+.tx-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--paper-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+.tx-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.tx-row:last-child { border-bottom: none; }
+.tx-row__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex: none;
+}
+.tx-row__body { flex: 1; min-width: 0; }
+.tx-row__name {
+  font-size: 13.5px;
+  font-weight: 600;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tx-row__meta {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+.tx-row__amount {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 13.5px;
+  font-weight: 600;
+  flex: none;
+}
+.tx-row__amount.is-positive { color: #1E9E5A; }
