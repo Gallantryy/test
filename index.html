@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ledger — Demo Finance UI</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1A1F3C">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ledger Demo">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/cards.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+<!-- Permanent, non-dismissible demo identification bar. Part of the layout, not a closable toast. -->
+<div class="demo-bar" role="note" aria-label="This is a demo application with fictional data">
+  <span class="demo-bar__dot"></span>
+  DEMO APP · NO REAL MONEY · FICTIONAL DATA
+</div>
+
+<div class="app">
+
+  <header class="app-header">
+    <button class="logo" id="logoTap" aria-label="Ledger logo, tap 5 times to open editor">
+      <span class="logo__mark">◧</span>
+      <span class="logo__word">LEDGER</span>
+      <span class="logo__tag">demo</span>
+    </button>
+    <button class="icon-btn" id="notifBtn" aria-label="Notifications (demo — no real notifications)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+    </button>
+  </header>
+
+  <main>
+
+    <!-- HOME VIEW -->
+    <section class="view" id="view-home">
+      <p class="greeting" id="greeting">Good afternoon</p>
+
+      <div class="balance-card" id="balanceCard">
+        <div class="balance-card__glow"></div>
+        <div class="balance-card__top">
+          <span class="balance-card__label">Total balance · demo figures</span>
+          <span class="balance-card__badge">SIM</span>
+        </div>
+        <h1 class="balance-card__amount" id="totalBalance" data-value="0">$0.00</h1>
+        <p class="balance-card__sub" id="primaryAccountLabel">Primary — Everyday</p>
+      </div>
+
+      <div class="section-head">
+        <h2>Accounts</h2>
+      </div>
+      <div class="account-list" id="homeAccountList"></div>
+
+      <div class="section-head">
+        <h2>Recent activity</h2>
+        <span class="section-head__note">sample entries</span>
+      </div>
+      <div class="tx-list" id="homeTxList"></div>
+    </section>
+
+    <!-- ACCOUNTS VIEW -->
+    <section class="view" id="view-accounts" hidden>
+      <div class="section-head section-head--top">
+        <h2>Accounts</h2>
+      </div>
+
+      <div class="card-carousel" id="cardCarousel"></div>
+
+      <div class="account-list account-list--detailed" id="accountsFullList"></div>
+    </section>
+
+    <!-- SETTINGS VIEW -->
+    <section class="view" id="view-settings" hidden>
+      <div class="section-head section-head--top">
+        <h2>Settings</h2>
+      </div>
+
+      <div class="settings-list">
+        <div class="settings-row">
+          <div>
+            <p class="settings-row__title">About this app</p>
+            <p class="settings-row__desc">Ledger is a portfolio/demo project. All balances, cards, and transactions are fictional and stored only on this device.</p>
+          </div>
+        </div>
+        <button class="settings-row settings-row--action" id="openAdminFromSettings">
+          <div>
+            <p class="settings-row__title">Edit demo data</p>
+            <p class="settings-row__desc">Change the name, balances, and card style</p>
+          </div>
+          <span class="chevron">›</span>
+        </button>
+        <button class="settings-row settings-row--action" id="resetDataBtn">
+          <div>
+            <p class="settings-row__title">Reset to sample data</p>
+            <p class="settings-row__desc">Restore the original demo values</p>
+          </div>
+          <span class="chevron">›</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="tab-bar">
+    <button class="tab-btn is-active" data-view="home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="tab-btn" data-view="accounts">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2.5"/><path d="M2 10.5h20"/></svg>
+      <span>Accounts</span>
+    </button>
+    <button class="tab-btn" data-view="settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.5 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.55-1H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 8.5a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 008.5 4.6a1.7 1.7 0 001-1.55V3a2 2 0 014 0v.09a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 8.5a1.7 1.7 0 001.55 1H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.51 1z"/></svg>
+      <span>Settings</span>
+    </button>
+  </nav>
+
+</div>
+
+<!-- ADMIN / EDIT OVERLAY -->
+<div class="overlay" id="adminOverlay" hidden>
+  <div class="overlay__scrim" id="adminScrim"></div>
+
+  <!-- Step 1: PIN -->
+  <div class="sheet" id="pinSheet">
+    <div class="sheet__handle"></div>
+    <p class="sheet__eyebrow">Demo editor</p>
+    <h3 class="sheet__title">Enter PIN</h3>
+    <p class="sheet__desc">Default PIN is <strong>1234</strong>. This only unlocks editing of the sample data on this device.</p>
+    <div class="pin-dots" id="pinDots">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="pin-pad" id="pinPad">
+      <button data-key="1">1</button><button data-key="2">2</button><button data-key="3">3</button>
+      <button data-key="4">4</button><button data-key="5">5</button><button data-key="6">6</button>
+      <button data-key="7">7</button><button data-key="8">8</button><button data-key="9">9</button>
+      <button class="pin-pad__ghost" disabled></button><button data-key="0">0</button>
+      <button data-key="back" aria-label="Backspace">⌫</button>
+    </div>
+    <button class="text-btn" id="cancelPin">Cancel</button>
+  </div>
+
+  <!-- Step 2: Edit form -->
+  <div class="sheet" id="editSheet" hidden>
+    <div class="sheet__handle"></div>
+    <div class="sheet__header">
+      <p class="sheet__eyebrow">Demo editor</p>
+      <button class="text-btn" id="closeEdit">Done</button>
+    </div>
+    <h3 class="sheet__title">Edit demo data</h3>
+
+    <div class="edit-scroll">
+      <label class="field">
+        <span class="field__label">Display name</span>
+        <input type="text" id="editName" maxlength="24">
+      </label>
+
+      <p class="field__group-label">Card</p>
+      <label class="field">
+        <span class="field__label">Card nickname</span>
+        <input type="text" id="editCardNickname" maxlength="20">
+      </label>
+      <div class="field">
+        <span class="field__label">Card color</span>
+        <div class="swatches" id="colorSwatches">
+          <button class="swatch" data-color="indigo" style="--sw:linear-gradient(135deg,#2A2E63,#5A5FE0)"></button>
+          <button class="swatch" data-color="amber" style="--sw:linear-gradient(135deg,#8A5A00,#FFB100)"></button>
+          <button class="swatch" data-color="teal" style="--sw:linear-gradient(135deg,#0E4F4F,#1FBFAE)"></button>
+          <button class="swatch" data-color="rose" style="--sw:linear-gradient(135deg,#5C1A3A,#E0507F)"></button>
+          <button class="swatch" data-color="ink" style="--sw:linear-gradient(135deg,#0B0D17,#2B3050)"></button>
+        </div>
+      </div>
+
+      <p class="field__group-label">Accounts</p>
+      <div id="accountEditFields"></div>
+
+      <button class="ghost-btn" id="changePinBtn" type="button">Change PIN</button>
+    </div>
+
+    <button class="primary-btn" id="saveEdits">Save changes</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/cards.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
